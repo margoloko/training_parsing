@@ -10,8 +10,11 @@ if __name__ == '__main__':
         requests.get(URL)
         
     session = requests_cache.CachedSession()
+    #session = requests_cache.CachedSession('http_cache', backend='filesystem')
     session.cache.clear()
 
+        
+    
     for i in tqdm(range(3), desc='3агрузка из кеша'):
         session.get(URL)
         
