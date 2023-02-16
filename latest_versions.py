@@ -11,4 +11,11 @@ if __name__ == '__main__':
     soup = BS(response.text, 'lxml')    
     sidebar = soup.find('div', attrs = {'class':'sphinxsidebarwrapper'})
     ul_tags = sidebar.find_all('ul')
-    print(ul_tags)
+    for ul in ul_tags:
+        if 'All versions' in ul.text:
+            a_tags = ul.find_all('a')
+            break
+    else:
+        raise Exception('Ничего не нашлось')
+    print(a_tags) 
+    #print(ul_tags)
