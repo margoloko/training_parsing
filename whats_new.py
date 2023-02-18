@@ -33,7 +33,9 @@ if __name__ == '__main__':
         dl = soup_v.find('dl')
         dl_text = dl.text.replace('\n', ' ')
         result.append((ssil, h1.text, dl_text))
+        # Печать списка с данными.
         for row in result:
+        # Распаковка каждого кортежа при печати при помощи звездочки.
             print(*row)
     
     

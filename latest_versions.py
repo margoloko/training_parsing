@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as BS
 import requests_cache
+import re
 
 
 MAIN_DOC_URL = 'https://docs.python.org/3/'
@@ -17,5 +18,19 @@ if __name__ == '__main__':
             break
     else:
         raise Exception('Ничего не нашлось')
-    print(a_tags) 
-    #print(ul_tags)
+    
+    result = []
+    pattern = r'Python (?P<version>\d\.\d+) \((?P<status>.*)\)'
+    for a_tag in a_tags:
+        link = a_tag['href']
+        text_match = re.search(pattern, a_tag.text)
+        if text_match is not None:
+            version, status = text_match.groups()
+        else:
+            version, status = a_tag.text, ''
+        result.append((link, version, status))
+    
+    # Печать списка с данными.
+    for row in result:
+        # Распаковка каждого кортежа при печати при помощи звездочки.
+        print(*row)
