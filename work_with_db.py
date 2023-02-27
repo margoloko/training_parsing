@@ -1,5 +1,5 @@
 # work_with_db.py
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, insert, select, update, delete
 from sqlalchemy.orm import declared_attr, declarative_base, Session
 
 # Обычно класс, на основе которого создаётся декларативная база,
@@ -23,25 +23,27 @@ class Pep(Base):
     name = Column(String(200))
     status = Column(String(20))
 
+    def __repr__(self):
+        return f'PEP {self.pep_number} {self.name}'
+
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///sqlite.db', echo=True)
+    engine = create_engine('sqlite:///sqlite.db', echo=False)
     Base.metadata.create_all(engine)
     session = Session(engine)
 
-    pep8 = Pep(pep_number=8,
-               name='Style Guide for Python Code',
-               status='Active')
+    session.execute(update(Pep).where(Pep.status == 'Active').values(status='Draft'))
 
-    pep20 = Pep(pep_number=20,
-                name='The Zen of Python',
-                status='Active')
+    #session.query(Pep).filter(Pep.pep_number > 20).delete()
 
-    pep216 = Pep(pep_number=216,
-                 name='Docstring Format',
-                 status='Rejected')
-    
-    session.add(pep8)
-    session.add(pep20)
-    session.add(pep216)
+    #pep8 = session.query(Pep).filter(Pep.status == 'Active').first()
+    #session.delete(pep8)
+    #pep8 = session.query(Pep).filter(Pep.pep_number == 8).first()    
+    #pep8.status = 'Closed'  
+    #print(pep8)
+#   results = session.query(Pep).filter(Pep.status == 'Active')
+# Переменная results хранит объект Query...
+#    print(results.all())
+    #print(result.all())
+
     session.commit()
