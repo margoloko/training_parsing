@@ -2,7 +2,7 @@ import requests
 
 from bs4 import BeautifulSoup
 
-URL = 'http://51.250.32.149/'
+
 LOGIN_URL = 'http://51.250.32.149/login/'
 
 if __name__ == '__main__':
